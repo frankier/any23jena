@@ -1,0 +1,12 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://example.org/john-d/> dc:creator "Jonathan Doe"@en;
+    foaf:primaryTopic <http://example.org/john-d/#me> .
+
+<http://example.org/john-d/#me> foaf:interest <http://www.neubauten.org/>,
+        <urn:ISBN:0752820907>;
+    foaf:nick "John D"@en .
+
+<urn:ISBN:0752820907> dc:creator "Tim Berners-Lee"@en;
+    dc:title "Weaving the Web"@en .
