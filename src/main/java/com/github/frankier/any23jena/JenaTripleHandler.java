@@ -28,7 +28,7 @@ public class JenaTripleHandler implements TripleHandler {
 	}
 	
 	@Override
-	public void receiveTriple(Resource subject, IRI predicate, Value object, IRI graph_iri, ExtractionContext context)
+	public void receiveTriple(Resource subject, IRI predicate, Value object, IRI graphIri, ExtractionContext context)
 			throws TripleHandlerException {
 		try {
 			graph.add(new Triple(

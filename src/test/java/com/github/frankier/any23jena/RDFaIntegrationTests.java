@@ -15,28 +15,28 @@ import org.junit.Test;
 public class RDFaIntegrationTests {
 	@Test
 	public void testLoadRdfa() throws Exception {
-		Model test_model = org.apache.jena.rdf.model.ModelFactory.createDefaultModel();
-		JenaTripleHandler th = new JenaTripleHandler(test_model);
+		Model testModel = org.apache.jena.rdf.model.ModelFactory.createDefaultModel();
+		JenaTripleHandler th = new JenaTripleHandler(testModel);
 		
 		final Any23 any23 = new Any23("html-rdfa11");
 		URL rdfaDocUrl = RDFaIntegrationTests.class
 				.getClassLoader().getResource("rdfa.html");
 		any23.extract(rdfaDocUrl.toString(), th);
 
-		Model ref_model = ModelFactory.createDefaultModel() ;
+		Model refModel = ModelFactory.createDefaultModel() ;
 		URL convRdfaDocUrl = RDFaIntegrationTests.class
 				.getClassLoader().getResource("rdfa.ttl");
-		ref_model.read(convRdfaDocUrl.toString());
+		refModel.read(convRdfaDocUrl.toString());
 
-		List<Statement> test_statements = test_model.listStatements().toList();
-		List<Statement> ref_statements = ref_model.listStatements().toList();
+		List<Statement> testStatements = testModel.listStatements().toList();
+		List<Statement> refStatements = refModel.listStatements().toList();
 		try {
-			assertThat(ref_statements, containsInAnyOrder(test_statements.toArray()));
+			assertThat(refStatements, containsInAnyOrder(testStatements.toArray()));
 		} catch (AssertionError e) {
 			System.err.println("Test statements");
-			System.err.println(test_statements);
+			System.err.println(testStatements);
 			System.err.println("Ref statements");
-			System.err.println(ref_statements);
+			System.err.println(refStatements);
 			throw e;
 		}
 	}
