@@ -6,6 +6,10 @@
  * user guide available at https://docs.gradle.org/3.5/userguide/java_library_plugin.html
  */
 
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+}
+
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
 
@@ -34,3 +38,22 @@ dependencies {
         }
     }
 }*/
+
+bintray {
+    user = bintray_user 
+    key = bintray_key 
+    pkg {
+        repo = 'maven'
+        name = 'any23jena'
+        userOrg = bintray_user
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/frankier/any23jena.git'
+    }
+    configurations = ['archives']
+}
+
+pkg {
+    version {
+        name = '0.1'
+    }
+}
