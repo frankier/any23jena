@@ -1,11 +1,11 @@
 package com.github.frankier.any23jena;
 
+import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
-import org.eclipse.rdf4j.model.Value;
-import org.apache.jena.datatypes.TypeMapper;
-import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Value;
 
 public class Utils {
 	public static Node valueToNode(Value val) throws UnknownValueTypeException {
