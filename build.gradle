@@ -7,53 +7,109 @@
  */
 
 plugins {
-    id "com.jfrog.bintray" version "1.7.3"
+	id "com.jfrog.bintray" version "1.8.0"
 }
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+def any23ver = '0.12'
+group = 'com.github.frankier.any23jena'
+version = any23ver
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-    // Use jcenter for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+	// Use jcenter for resolving your dependencies.
+	// You can declare any Maven/Ivy/file repository here.
+	jcenter()
 }
 
 dependencies {
 	compile group: 'org.apache.jena', name: 'jena', version: '3.6.0', ext: 'pom'
 	compile group: 'org.apache.jena', name: 'jena-arq', version: '3.6.0'
-	
+
 	compile group: 'org.apache.any23', name: 'apache-any23-core', version: '2.1'
 
-    testCompile 'junit:junit:4.12'
+	testCompile 'junit:junit:4.12'
 
 	compile 'org.hamcrest:hamcrest-all:1.3'
 }
 
 /*sourceSets {
-    test {
-        java {
-            srcDirs = ["src/test/java"]
-        }
-    }
+	test {
+		java {
+			srcDirs = ["src/test/java"]
+		}
+	}
 }*/
 
-bintray {
-    user = bintray_user 
-    key = bintray_key 
-    pkg {
-        repo = 'maven'
-        name = 'any23jena'
-        userOrg = bintray_user
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/frankier/any23jena.git'
-    }
-    configurations = ['archives']
+def pomConfig = {
+	licenses {
+		license {
+			name "The Apache Software License, Version 2.0"
+			url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+			distribution "repo"
+		}
+	}
+
+	developers {
+		developer {
+			id "frankier"
+			name "Frankie Robertson"
+			email "frankie@robertson.name"
+		}
+	}
+
+	scm {
+		url "https://github.com/frankier/any23jena"
+	}
 }
 
-pkg {
-    version {
-        name = '0.1'
-    }
+publishing {
+	publications {
+		Any23(MavenPublication) {
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+			groupId 'com.github.frankier.any23jena'
+			artifactId 'any23jena'
+			version any23ver
+			pom.withXml {
+				def root = asNode()
+				root.appendNode('description', 'Bridge to load triples using Any23 into a Jena Model/Graph')
+				root.appendNode('name', 'any23jena')
+				root.appendNode('url', 'https://github.com/frankier/any23jena')
+				root.children().last() + pomConfig
+			}
+		}
+	}
+}
+
+bintray {
+	user = bintray_user 
+	key = bintray_key 
+	pkg {
+		repo = 'maven'
+		name = 'any23jena'
+		userOrg = bintray_user
+		licenses = ['Apache-2.0']
+		vcsUrl = 'https://github.com/frankier/any23jena.git'
+		version {
+			name = any23ver
+		}
+	}
+	configurations = ['archives']
+	publications = ['Any23']
 }
