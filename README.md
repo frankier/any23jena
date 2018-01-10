@@ -2,7 +2,15 @@
 
 This tiny library provides a bridge to allow Any23 to load triples into a Jena
 Model/Graph. This can be used to support formats Jena doesn't support natively
-(e.g. RDFa). You can use it like so::
+(e.g. RDFa).
+
+## Installation
+
+This library is available on jCenter. See: https://bintray.com/frankier/maven/any23jena
+
+## Example
+
+You can use it like so::
 
     Model myModel = org.apache.jena.rdf.model.ModelFactory.createDefaultModel();
     JenaTripleHandler tripleHandler = new JenaTripleHandler(myModel);
